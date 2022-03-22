@@ -1,25 +1,20 @@
 import openai
-import json
 from gtts import gTTS
-import os
+import playsound
 language = 'it'
-openai.api_key = "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"
+openai.api_key = ""
 sogno_generato = openai.Completion.create(
     model="curie:ft-hanaku-2022-02-25-10-37-27",
     prompt="sogni_fiorella",
 max_tokens=500)
 sogno_generato = sogno_generato["choices"][0]['text']
 myobj = gTTS(text=sogno_generato, lang=language, slow=False)
-# Saving the converted audio in a mp3 file named
-# welcome
-myobj.save("welcome.mp3")
+#salva l'audio in file mp3
+myobj.save("sogno.mp3")
 print(sogno_generato)
-import playsound
-
-# wait for the sound to finish playing?
+#aspetta di terminare la riproduzione del file audio
 blocking = True
-
-playsound.playsound("welcome.mp3", block=blocking)
+playsound.playsound("sogno.mp3", block=blocking)
 
 
 

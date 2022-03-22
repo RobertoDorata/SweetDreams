@@ -22,6 +22,11 @@ while inseriti_nuovi_link == 1:
     if lunghezza_lista_link == len(link_inseriti):
         inseriti_nuovi_link = 0
 
+f = open('sogni_fiorella.txt', 'a')
+# absolute file positioning
+f.seek(0)
+# to erase all data
+f.truncate()
 for link in link_inseriti:
     r = requests.get(link)
     soup = BeautifulSoup(r.content, 'html.parser')
@@ -29,6 +34,8 @@ for link in link_inseriti:
     for id in ids:
         if "post-body-" in id:
             testo_post = soup.find(id=id).get_text()
+            testo_post = testo_post.replace("", '')
+            testo_post = testo_post.strip()
+            testo_post = '{"prompt": "sogni", "completion":"' + testo_post + '"}\n'
             print(testo_post)
-            with open('sogni.txt', 'a') as output:
-                output.write(testo_post)
+            f.write(testo_post)
